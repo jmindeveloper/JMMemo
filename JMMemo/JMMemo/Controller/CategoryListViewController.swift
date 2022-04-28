@@ -15,10 +15,24 @@ class CategoryListViewController: UIViewController {
         let layout = UICollectionViewFlowLayout()
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(UserAddCategoryCollectionViewCell.self, forCellWithReuseIdentifier: UserAddCategoryCollectionViewCell.identifier)
         collectionView.register(DefaultCategoryCollectionViewCell.self, forCellWithReuseIdentifier: DefaultCategoryCollectionViewCell.identifier)
         
         return collectionView
+    }()
+    
+    private let floatingButton: UIButton = {
+        let button = UIButton()
+        button.makeFloatingButton()
+        
+        return button
+    }()
+    
+    private let buttonImage: UIImageView = {
+        let image = UIImageView(image: UIImage(systemName: "plus"))
+        image.tintColor = .white
+        
+        return image
     }()
     
     // MARK: - ViewCycle
@@ -33,6 +47,8 @@ class CategoryListViewController: UIViewController {
         categoryCollectionView.collectionViewLayout = layout()
         
         view.addSubview(categoryCollectionView)
+        view.addSubview(floatingButton)
+        floatingButton.addSubview(buttonImage)
     }
     
     override func viewDidLayoutSubviews() {
@@ -40,6 +56,17 @@ class CategoryListViewController: UIViewController {
         
         categoryCollectionView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        floatingButton.snp.makeConstraints {
+            $0.width.height.equalTo(60)
+            $0.trailing.equalToSuperview().offset(-30)
+            $0.bottom.equalToSuperview().offset(-65)
+        }
+        
+        buttonImage.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.centerY.centerX.equalToSuperview()
         }
     }
     
@@ -85,8 +112,10 @@ extension CategoryListViewController: UICollectionViewDataSource {
             
             return cell
         case 1:
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-            cell.backgroundColor = .red
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserAddCategoryCollectionViewCell.identifier, for: indexPath) as? UserAddCategoryCollectionViewCell else { return UICollectionViewCell() }
+            
+            cell.configure()
+            
             return cell
         default:
             return UICollectionViewCell()

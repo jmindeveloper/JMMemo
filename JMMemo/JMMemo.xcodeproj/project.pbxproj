@@ -19,6 +19,7 @@
 		0E043234281A395000A05D42 /* memoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E043233281A395000A05D42 /* memoListTableViewCell.swift */; };
 		0E043239281A444000A05D42 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E043238281A444000A05D42 /* Extension.swift */; };
 		0E04323B281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */; };
+		0E87F0DD281A62A50001140E /* UserAddCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87F0DC281A62A50001140E /* UserAddCategoryCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		0E043233281A395000A05D42 /* memoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = memoListTableViewCell.swift; sourceTree = "<group>"; };
 		0E043238281A444000A05D42 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
+		0E87F0DC281A62A50001140E /* UserAddCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,6 +97,7 @@
 			children = (
 				0E043233281A395000A05D42 /* memoListTableViewCell.swift */,
 				0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */,
+				0E87F0DC281A62A50001140E /* UserAddCategoryCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -198,6 +201,7 @@
 				0E04320C281A32E800A05D42 /* AppDelegate.swift in Sources */,
 				0E04320E281A32E800A05D42 /* SceneDelegate.swift in Sources */,
 				0E043228281A334E00A05D42 /* MemoListViewController.swift in Sources */,
+				0E87F0DD281A62A50001140E /* UserAddCategoryCollectionViewCell.swift in Sources */,
 				0E043230281A385900A05D42 /* Memo.swift in Sources */,
 				0E04323B281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift in Sources */,
 				0E043232281A386100A05D42 /* Category.swift in Sources */,
