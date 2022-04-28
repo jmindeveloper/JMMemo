@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class MemoListViewController: UIViewController {
     
@@ -88,12 +89,13 @@ class MemoListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dummyMemoList.count
+//        return dummyMemoList.count
+        10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: memoListTableViewCell.identifier, for: indexPath) as? memoListTableViewCell else { return UITableViewCell() }
-        cell.configure(with: dummyMemoList[indexPath.row])
+//        cell.configure(with: dummyMemoList[indexPath.row])
         
         return cell
     }

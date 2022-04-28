@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Category {
-    var memoCount: Int
-    var categoryName: String
-    var memos: [Memo]
+class Category: Object {
+    @Persisted var memoCount: Int
+    @Persisted var categoryName: String
+    @Persisted var isDefault: Bool = false
 }

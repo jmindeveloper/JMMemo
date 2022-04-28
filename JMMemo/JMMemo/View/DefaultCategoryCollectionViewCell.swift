@@ -69,10 +69,16 @@ class DefaultCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - Method
-    public func configure() {
-        categoryImage.image = UIImage(systemName: "note.text")
-        categoryNameLabel.text = "전체"
-        countLabel.text = "5"
+    public func configure(with model: CategoryViewModel) {
+        
+        if model.categoryName == "전체" {
+            categoryImage.image = UIImage(systemName: "note.text")
+        } else {
+            categoryImage.image = UIImage(systemName: "star")
+        }
+        
+        categoryNameLabel.text = model.categoryName
+        countLabel.text = model.count
     }
     
     private func configureCell() {

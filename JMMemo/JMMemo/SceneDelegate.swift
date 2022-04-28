@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RealmSwift
+import Realm
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -22,6 +25,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window?.rootViewController = navigation
         window?.makeKeyAndVisible()
+        
+        // MARK: - 앱 첫 실행시 기본카테고리(전체, 즐겨찾기) 생성
+        let categoryManeger = CategoryRealmManeger()
+        
+        if categoryManeger.getAllCategory().default?.count == 0 {
+            let allCategory = Category()
+            allCategory.categoryName = "전체"
+            allCategory.memoCount = 0
+            allCategory.isDefault = true
+            
+            let starCategory = Category()
+            starCategory.categoryName = "즐겨찾기"
+            starCategory.memoCount = 0
+            starCategory.isDefault = true
+            
+            categoryManeger.saveCategory(with: allCategory)
+            categoryManeger.saveCategory(with: starCategory)
+        } else {
+            let categorys = categoryManeger.getAllCategory()
+            categorys.default?.forEach {
+                print($0.categoryName)
+            }
+        }
+        
+        print(Realm.Configuration.defaultConfiguration.fileURL!)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

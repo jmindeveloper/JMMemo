@@ -6,10 +6,18 @@
 //
 
 import UIKit
+import RealmSwift
 
 class CategoryListViewController: UIViewController {
     
     // MARK: - Properties
+    private let categoryManeger = CategoryRealmManeger()
+    private var categorys: (default: Results<Category>?, userAdd: Results<Category>?)? = nil {
+        willSet {
+            categoryCollectionView.reloadData()
+        }
+    }
+    
     private let categoryCollectionView: UICollectionView = {
         
         let layout = UICollectionViewFlowLayout()
@@ -41,6 +49,8 @@ class CategoryListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         configureNavBar()
+        
+        categorys = categoryManeger.getAllCategory()
         
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
@@ -94,7 +104,7 @@ extension CategoryListViewController: UICollectionViewDataSource {
         case 0:
             return 2
         case 1:
-            return 10
+            return categorys?.userAdd?.count ?? 0
         default:
             break
         }
@@ -108,7 +118,12 @@ extension CategoryListViewController: UICollectionViewDataSource {
         case 0:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCategoryCollectionViewCell.identifier, for: indexPath) as? DefaultCategoryCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.configure()
+            let categoryName = categorys?.default?[indexPath.row].categoryName ?? "전체"
+            let count = String(categorys?.default?[indexPath.row].memoCount ?? 0)
+            
+            let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
+            
+            cell.configure(with: categoryViewModeol)
             
             return cell
         case 1:
