@@ -19,6 +19,20 @@ class MemoListViewController: UIViewController {
         return tableView
     }()
     
+    private let floatingButton: UIButton = {
+        let button = UIButton()
+        button.makeFloatingButton()
+        
+        return button
+    }()
+    
+    private let buttonImage: UIImageView = {
+        let image = UIImageView(image: UIImage(systemName: "plus"))
+        image.tintColor = .white
+        
+        return image
+    }()
+    
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +46,11 @@ class MemoListViewController: UIViewController {
         memoListTableView.rowHeight = 60
         
         view.addSubview(memoListTableView)
+        view.addSubview(floatingButton)
+        floatingButton.addSubview(buttonImage)
         
+        // button target
+        floatingButton.addTarget(self, action: #selector(didFloatingButtonTapped(_:)), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -40,6 +58,17 @@ class MemoListViewController: UIViewController {
         
         memoListTableView.snp.makeConstraints {
             $0.edges.equalToSuperview()
+        }
+        
+        floatingButton.snp.makeConstraints {
+            $0.width.height.equalTo(60)
+            $0.trailing.equalToSuperview().offset(-30)
+            $0.bottom.equalToSuperview().offset(-65)
+        }
+        
+        buttonImage.snp.makeConstraints {
+            $0.width.height.equalTo(30)
+            $0.centerY.centerX.equalToSuperview()
         }
     }
     
@@ -49,6 +78,10 @@ class MemoListViewController: UIViewController {
         navigationItem.title = "Memo"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+    }
+    
+    @objc func didFloatingButtonTapped(_ sender: UIButton) {
+        print("didFloatingButtonTapped")
     }
 }
 

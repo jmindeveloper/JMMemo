@@ -63,7 +63,7 @@ class memoListTableViewCell: UITableViewCell {
         memoTitleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(20)
             $0.top.equalToSuperview().offset(10)
-            $0.trailing.equalTo(lockImage.snp.trailing).offset(-15)
+            $0.trailing.equalToSuperview().offset(-15)
         }
         
         dateLabel.snp.makeConstraints {

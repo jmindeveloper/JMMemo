@@ -17,6 +17,7 @@
 		0E043230281A385900A05D42 /* Memo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04322F281A385900A05D42 /* Memo.swift */; };
 		0E043232281A386100A05D42 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E043231281A386100A05D42 /* Category.swift */; };
 		0E043234281A395000A05D42 /* memoListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E043233281A395000A05D42 /* memoListTableViewCell.swift */; };
+		0E043239281A444000A05D42 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E043238281A444000A05D42 /* Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		0E04322F281A385900A05D42 /* Memo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Memo.swift; sourceTree = "<group>"; };
 		0E043231281A386100A05D42 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		0E043233281A395000A05D42 /* memoListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = memoListTableViewCell.swift; sourceTree = "<group>"; };
+		0E043238281A444000A05D42 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 		0E04320A281A32E800A05D42 /* JMMemo */ = {
 			isa = PBXGroup;
 			children = (
+				0E043235281A440200A05D42 /* Custom */,
 				0E043226281A334000A05D42 /* Model */,
 				0E043225281A333700A05D42 /* View */,
 				0E043224281A333000A05D42 /* Controller */,
@@ -100,6 +103,14 @@
 				0E043231281A386100A05D42 /* Category.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		0E043235281A440200A05D42 /* Custom */ = {
+			isa = PBXGroup;
+			children = (
+				0E043238281A444000A05D42 /* Extension.swift */,
+			);
+			path = Custom;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -186,6 +197,7 @@
 				0E043228281A334E00A05D42 /* MemoListViewController.swift in Sources */,
 				0E043230281A385900A05D42 /* Memo.swift in Sources */,
 				0E043232281A386100A05D42 /* Category.swift in Sources */,
+				0E043239281A444000A05D42 /* Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
