@@ -68,8 +68,8 @@ class UserAddCategoryCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .systemGray6
     }
     
-    public func configure() {
-        categoryNameLabel.text = "Custom Category"
-        countLabel.text = "5"
+    public func configure(with model: CategoryViewModel) {
+        categoryNameLabel.text = model.categoryName
+        countLabel.text = model.count
     }
 }

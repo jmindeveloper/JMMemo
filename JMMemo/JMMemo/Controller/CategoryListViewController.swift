@@ -59,6 +59,8 @@ class CategoryListViewController: UIViewController {
         view.addSubview(categoryCollectionView)
         view.addSubview(floatingButton)
         floatingButton.addSubview(buttonImage)
+        
+        floatingButton.addTarget(self, action: #selector(creatNewCategory(_:)), for: .touchUpInside)
     }
     
     override func viewDidLayoutSubviews() {
@@ -90,6 +92,29 @@ class CategoryListViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    @objc func creatNewCategory(_ sender: UIButton) {
+        
+        let alert = UIAlertController(title: nil, message: "New Category", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            guard let self = self else { return }
+            guard let categoryName = alert.textFields?[0].text,
+                  categoryName != "" else { return }
+            let newCategory = Category()
+            newCategory.categoryName = categoryName
+            newCategory.memoCount = 0
+            
+            self.categoryManeger.saveCategory(with: newCategory)
+            self.categorys = self.categoryManeger.getAllCategory()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        alert.addTextField { tf in
+            tf.placeholder = "Category Name"
+        }
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
     
 }
 
@@ -129,14 +154,17 @@ extension CategoryListViewController: UICollectionViewDataSource {
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserAddCategoryCollectionViewCell.identifier, for: indexPath) as? UserAddCategoryCollectionViewCell else { return UICollectionViewCell() }
             
-            cell.configure()
+            let categoryName = categorys?.userAdd?[indexPath.row].categoryName ?? "전체"
+            let count = String(categorys?.userAdd?[indexPath.row].memoCount ?? 0)
+            
+            let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
+            
+            cell.configure(with: categoryViewModeol)
             
             return cell
         default:
             return UICollectionViewCell()
         }
-        
-        
     }
 }
 
