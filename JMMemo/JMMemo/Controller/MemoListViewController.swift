@@ -83,7 +83,9 @@ class MemoListViewController: UIViewController {
     }
     
     @objc func didFloatingButtonTapped(_ sender: UIButton) {
-        print("didFloatingButtonTapped")
+        let vc = CreatMemoViewController()
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

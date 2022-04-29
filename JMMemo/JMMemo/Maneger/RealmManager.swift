@@ -58,4 +58,48 @@ class CategoryRealmManeger {
     
 }
 
-
+class MemoRealmManeger {
+    
+    private func setRealm() -> Realm? {
+        do {
+            return try Realm()
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    // MARK: - Memo Maneger
+    public func saveCategory(with data: Memo) {
+        
+        let realm = setRealm()
+        
+        do {
+            try realm?.write {
+                realm?.add(data)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    public func getAllCategory() -> Results<Memo>? {
+        let realm = setRealm()
+        
+        let allMemo = realm?.objects(Memo.self)
+        
+        return allMemo
+    }
+    
+    public func deleteCategory(with data: Memo) {
+        let realm = setRealm()
+        
+        do {
+            try realm?.write {
+                realm?.delete(data)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}

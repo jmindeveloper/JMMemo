@@ -199,8 +199,6 @@ extension CategoryListViewController: UICollectionViewDelegate {
         
         navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
 }
 
 // MARK: - UserAddCategoryCollectionViewCellDelegate

@@ -16,6 +16,7 @@ class Memo: Object {
     @Persisted var password: Int?
     @Persisted var memoDate: String
     @Persisted var star: Bool = false
+    @Persisted var category: String
 }
 
 //struct Memo {
