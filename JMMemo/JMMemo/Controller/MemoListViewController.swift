@@ -34,6 +34,7 @@ class MemoListViewController: UIViewController {
         return image
     }()
     
+    public var navigationTitle = "Memo"
     // MARK: - LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,7 +77,7 @@ class MemoListViewController: UIViewController {
     // MARK: - Method
     
     private func configureNavBar() {
-        navigationItem.title = "Memo"
+        navigationItem.title = navigationTitle
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
     }

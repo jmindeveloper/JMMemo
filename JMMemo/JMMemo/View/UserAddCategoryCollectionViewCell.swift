@@ -6,12 +6,20 @@
 //
 
 import UIKit
+import SnapKit
+
+protocol UserAddCategoryCollectionViewCellDelegate: AnyObject {
+    func delete(_ sender: UIButton)
+}
 
 class UserAddCategoryCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "UserAddCategoryCollectionViewCell"
     
     // MARK: - Properties
+    public var CellDeleteMode = false
+    weak var delegate: UserAddCategoryCollectionViewCellDelegate?
+    
     private let categoryNameLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 17, weight: .regular)
@@ -26,35 +34,34 @@ class UserAddCategoryCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let deleteButton: UIButton = {
+        let button = UIButton()
+        
+        return button
+    }()
+    
+    private let deleteButtonImage: UIImageView = {
+        let image = UIImage(systemName: "x.circle")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = .red
+        
+        return imageView
+    }()
+    
     // MARK: - LifeCycle
     override init(frame: CGRect) {
         super.init(frame: frame)
         
         configureCell()
         
-        [categoryNameLabel, countLabel].forEach {
+        [categoryNameLabel, countLabel, deleteButton].forEach {
             contentView.addSubview($0)
         }
-        
+        deleteButton.addSubview(deleteButtonImage)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        categoryNameLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(15)
-            $0.trailing.equalTo(countLabel.snp.leading).offset(-15)
-        }
-        
-        countLabel.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-25)
-        }
     }
     
     // MARK: - Method
@@ -69,7 +76,52 @@ class UserAddCategoryCollectionViewCell: UICollectionViewCell {
     }
     
     public func configure(with model: CategoryViewModel) {
+        
+        categoryNameLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalTo(countLabel.snp.leading).offset(-15)
+        }
+        
+        deleteButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-25)
+            $0.width.height.equalTo(40)
+        }
+        
+        deleteButton.addTarget(self, action: #selector(didTapDeleteButton(_:)), for: .touchUpInside)
+        
+        deleteButtonImage.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.width.height.equalTo(25)
+        }
+        
+        countLabel.snp.remakeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-25)
+        }
+        
         categoryNameLabel.text = model.categoryName
         countLabel.text = model.count
+    }
+    
+    func deleteMode(_ isActive: Bool) {
+        if isActive {
+            deleteButton.isHidden = false
+            countLabel.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().offset(-65)
+                $0.centerY.equalToSuperview()
+            }
+        } else {
+            deleteButton.isHidden = true
+            countLabel.snp.remakeConstraints {
+                $0.trailing.equalToSuperview().offset(-25)
+                $0.centerY.equalToSuperview()
+            }
+        }
+    }
+    
+    @objc func didTapDeleteButton(_ sender: UIButton) {
+        delegate?.delete(sender)
     }
 }

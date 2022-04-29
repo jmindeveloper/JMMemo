@@ -17,6 +17,7 @@ class CategoryListViewController: UIViewController {
             categoryCollectionView.reloadData()
         }
     }
+    private var categoryDeleteMode = false
     
     private let categoryCollectionView: UICollectionView = {
         
@@ -87,6 +88,8 @@ class CategoryListViewController: UIViewController {
         navigationItem.title = "Category"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        let deleteButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(deleteMode(_:)))
+        navigationItem.rightBarButtonItems = [deleteButton]
         
         let vc = MemoListViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -116,6 +119,11 @@ class CategoryListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
+    @objc func deleteMode(_ sender: UIBarButtonItem) {
+        categoryDeleteMode.toggle()
+        print(categoryDeleteMode)
+        categoryCollectionView.reloadData()
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -160,6 +168,8 @@ extension CategoryListViewController: UICollectionViewDataSource {
             let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
             
             cell.configure(with: categoryViewModeol)
+            cell.deleteMode(categoryDeleteMode)
+            cell.delegate = self
             
             return cell
         default:
@@ -170,7 +180,57 @@ extension CategoryListViewController: UICollectionViewDataSource {
 
 // MARK: - UICollectionViewDelegate
 extension CategoryListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = MemoListViewController()
+        
+        switch indexPath.section {
+        case 0:
+            vc.navigationTitle = categorys?.default?[indexPath.row].categoryName ?? "Memo"
+            categoryDeleteMode = false
+            categoryCollectionView.reloadData()
+        case 1:
+            vc.navigationTitle = categorys?.userAdd?[indexPath.row].categoryName ?? "Memo"
+            categoryDeleteMode = false
+            categoryCollectionView.reloadData()
+        default:
+            break
+        }
+        
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
+    
+}
+
+extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate {
+    
+    // 눌린 deletebutton이 있는 cell의 indexPath 가져오기
+    func getCategoryCollectionViewCellIndexPath(_ sender: UIButton) -> IndexPath? {
+        let contentView = sender.superview
+        let cell = contentView?.superview as! UICollectionViewCell
+        
+        if let indexPath = categoryCollectionView.indexPath(for: cell) {
+            return indexPath
+        }
+        return nil
+    }
+    
+    // cell 삭제
+    func delete(_ sender: UIButton) {
+        guard let indexPath = getCategoryCollectionViewCellIndexPath(sender) else { return }
+        
+        guard let deleteCategory = categorys?.userAdd?[indexPath.row] else { return }
+        categoryManeger.deleteCategory(with: deleteCategory)
+        categorys = categoryManeger.getAllCategory()
+        
+        UIView.transition(with: categoryCollectionView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
+            guard let self = self else { return }
+            self.categoryCollectionView.reloadData()
+        }
+
+        
+        categoryCollectionView.reloadData()
+    }
 }
 
 // MARK: - CollectionView Layout
