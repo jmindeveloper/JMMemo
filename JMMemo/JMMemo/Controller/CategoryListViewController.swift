@@ -90,6 +90,7 @@ class CategoryListViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .always
         let deleteButton = UIBarButtonItem(image: UIImage(systemName: "gearshape.fill"), style: .plain, target: self, action: #selector(deleteMode(_:)))
         navigationItem.rightBarButtonItems = [deleteButton]
+        navigationController?.navigationBar.tintColor = .label
         
         let vc = MemoListViewController()
         navigationController?.pushViewController(vc, animated: true)
@@ -202,6 +203,7 @@ extension CategoryListViewController: UICollectionViewDelegate {
     
 }
 
+// MARK: - UserAddCategoryCollectionViewCellDelegate
 extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate {
     
     // 눌린 deletebutton이 있는 cell의 indexPath 가져오기
@@ -218,18 +220,25 @@ extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate 
     // cell 삭제
     func delete(_ sender: UIButton) {
         guard let indexPath = getCategoryCollectionViewCellIndexPath(sender) else { return }
-        
         guard let deleteCategory = categorys?.userAdd?[indexPath.row] else { return }
-        categoryManeger.deleteCategory(with: deleteCategory)
-        categorys = categoryManeger.getAllCategory()
         
-        UIView.transition(with: categoryCollectionView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
+        let alert = UIAlertController(title: nil, message: "\(deleteCategory.categoryName)카테고리를 진짜 삭제하시겠습니까?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             guard let self = self else { return }
-            self.categoryCollectionView.reloadData()
+            
+            self.categoryManeger.deleteCategory(with: deleteCategory)
+            self.categorys = self.categoryManeger.getAllCategory()
+            
+            UIView.transition(with: self.categoryCollectionView, duration: 0.1, options: .transitionCrossDissolve) { [weak self] in
+                guard let self = self else { return }
+                self.categoryCollectionView.reloadData()
+            }
         }
-
         
-        categoryCollectionView.reloadData()
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
     }
 }
 
