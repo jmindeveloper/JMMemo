@@ -84,6 +84,12 @@ class MemoListViewController: UIViewController {
     
     @objc func didFloatingButtonTapped(_ sender: UIButton) {
         let vc = CreatMemoViewController()
+        if let category = navigationItem.title, category != "전체", category != "즐겨찾기", category != "Memo" {
+            vc.category = category
+        } else {
+            vc.category = ""
+        }
+        vc.newMemo = Memo()
         
         navigationController?.pushViewController(vc, animated: true)
     }

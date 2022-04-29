@@ -11,6 +11,9 @@ class CreatMemoViewController: UIViewController {
     
     // MARK: - Properties
     
+    public var newMemo: Memo?
+    public var category = ""
+    
     private let floatingButton: UIButton = {
         let button = UIButton()
         button.makeFloatingButton()
@@ -78,6 +81,9 @@ class CreatMemoViewController: UIViewController {
         configureNavBar()
         keyboardNoti()
         hideKeyboard()
+        settingNewMemo()
+        
+        dateLabel.text = creatMemoTime()
         
         memoTextView.delegate = self
         
@@ -134,6 +140,21 @@ class CreatMemoViewController: UIViewController {
     }
     
     // MARK: - Method
+    private func settingNewMemo() {
+        newMemo?.category = category
+        newMemo?.isSecret = false
+        newMemo?.star = false
+        newMemo?.memoDate = creatMemoTime()
+    }
+    
+    private func creatMemoTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 M월 dd일 a h:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        let dateStr = dateFormatter.string(from: Date())
+        return dateStr
+    }
+    
     private func configureNavBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = "메모목록"
         navigationItem.title = "메모작성"
@@ -161,7 +182,6 @@ class CreatMemoViewController: UIViewController {
     }
     
     @objc func keyboardWillHideChangeConstraint(_ sender: Notification) {
-        print("keyboardHide")
         updateConstraints(0)
     }
     
