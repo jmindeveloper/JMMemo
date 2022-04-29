@@ -76,13 +76,16 @@ class CreatMemoViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         configureNavBar()
-        keyboardWillShow()
+        keyboardNoti()
         hideKeyboard()
+        
+        memoTextView.delegate = self
         
         [titleTextField, memoTextView, memoStrCountLabel, dateLabel ,floatingButton].forEach {
             view.addSubview($0)
         }
         floatingButton.addSubview(buttonImage)
+        floatingButton.addTarget(self, action: #selector(didTapFloatingButton(_:)), for: .touchUpInside)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -137,7 +140,7 @@ class CreatMemoViewController: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
     }
     
-    private func keyboardWillShow() {
+    private func keyboardNoti() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowChangeConstraint(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideChangeConstraint(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -167,7 +170,6 @@ class CreatMemoViewController: UIViewController {
             $0.width.equalToSuperview().multipliedBy(0.8)
             $0.centerX.equalToSuperview()
             $0.bottom.equalToSuperview().offset((-height - 40))
-            print("update Con")
         }
         
         floatingButton.snp.remakeConstraints {
@@ -175,6 +177,19 @@ class CreatMemoViewController: UIViewController {
             $0.trailing.equalToSuperview().offset(-30)
             $0.bottom.equalToSuperview().offset((-height - 65))
         }
-        print("함수호출")
+    }
+    
+    @objc func didTapFloatingButton(_ sender: UIButton) {
+        let vc = SettingMemoViewController()
+        view.endEditing(true)
+        
+        self.present(vc, animated: true)
+    }
+}
+
+extension CreatMemoViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        let strCount = memoTextView.text.count
+        memoStrCountLabel.text = String(strCount)
     }
 }
