@@ -113,6 +113,10 @@ class CategoryListViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         alert.addTextField { tf in
             tf.placeholder = "Category Name"
+            tf.autocapitalizationType = .sentences
+            tf.autocorrectionType = .no
+            tf.spellCheckingType = .no
+            tf.returnKeyType = .done
         }
         alert.addAction(okAction)
         alert.addAction(cancelAction)

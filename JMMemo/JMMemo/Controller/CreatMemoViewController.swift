@@ -76,11 +76,18 @@ class CreatMemoViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         configureNavBar()
+        keyboardWillShow()
+        hideKeyboard()
         
         [titleTextField, memoTextView, memoStrCountLabel, dateLabel ,floatingButton].forEach {
             view.addSubview($0)
         }
         floatingButton.addSubview(buttonImage)
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        removeNoti()
     }
     
     override func viewDidLayoutSubviews() {
@@ -128,5 +135,46 @@ class CreatMemoViewController: UIViewController {
         navigationController?.navigationBar.topItem?.backButtonTitle = "메모목록"
         navigationItem.title = "메모작성"
         navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    private func keyboardWillShow() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowChangeConstraint(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHideChangeConstraint(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    func removeNoti() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShowChangeConstraint(_ sender: Notification) {
+        var keyboardHeight: CGFloat = 0
+        
+        if let keyboardFrame: NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            keyboardHeight = keyboardFrame.cgRectValue.height
+        }
+        updateConstraints(keyboardHeight)
+    }
+    
+    @objc func keyboardWillHideChangeConstraint(_ sender: Notification) {
+        print("keyboardHide")
+        updateConstraints(0)
+    }
+    
+    func updateConstraints(_ height: CGFloat) {
+        memoTextView.snp.remakeConstraints {
+            $0.width.equalToSuperview().multipliedBy(0.8)
+            $0.centerX.equalToSuperview()
+            $0.bottom.equalToSuperview().offset((-height - 40))
+            print("update Con")
+        }
+        
+        floatingButton.snp.remakeConstraints {
+            $0.width.height.equalTo(60)
+            $0.trailing.equalToSuperview().offset(-30)
+            $0.bottom.equalToSuperview().offset((-height - 65))
+        }
+        print("함수호출")
     }
 }
