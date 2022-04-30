@@ -27,10 +27,10 @@ class ShowMemoViewController: UIViewController {
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
         scrollView.layer.borderColor = UIColor.systemGray5.cgColor
         scrollView.layer.cornerRadius = 8
         scrollView.layer.borderWidth = 1
+        scrollView.backgroundColor = .systemBackground
         
         return scrollView
     }()
@@ -89,7 +89,7 @@ class ShowMemoViewController: UIViewController {
         navigationItem.title = "메모"
         navigationItem.largeTitleDisplayMode = .never
         
-        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareMemo(_:)))
         ]
     }
     
@@ -97,6 +97,12 @@ class ShowMemoViewController: UIViewController {
         memoLabel.text = memo.memo
         titleLabel.text = memo.title
         dateLabel.text = memo.date
+    }
+    
+    @objc func shareMemo(_ sender: UIBarButtonItem) {
+        let memo: [Any] = [memoLabel.text ?? ""]
+        let memoViewController = UIActivityViewController(activityItems: memo, applicationActivities: nil)
+        self.present(memoViewController, animated: true)
     }
     
 }
