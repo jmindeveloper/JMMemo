@@ -19,7 +19,7 @@ class SelectCategoryCell: UITableViewCell {
     }()
     
     private var currentStatus: UIImageView = {
-        let image = UIImage(systemName: "chevron.right")
+        let image = UIImage(systemName: "chevron.up")
         let imageView = UIImageView(image: image)
         imageView.tintColor = .label
         
@@ -31,7 +31,7 @@ class SelectCategoryCell: UITableViewCell {
             if isOpen {
                 currentStatus.image = UIImage(systemName: "chevron.down")
             } else {
-                currentStatus.image = UIImage(systemName: "chevron.right")
+                currentStatus.image = UIImage(systemName: "chevron.up")
             }
         }
     }

@@ -30,6 +30,7 @@ class SettingMemoViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.register(SelectCategoryCell.self, forCellReuseIdentifier: SelectCategoryCell.identifier)
         tableView.register(CategoryListCell.self, forCellReuseIdentifier: CategoryListCell.identifier)
+        tableView.register(SetMemoPasswordCell.self, forCellReuseIdentifier: SetMemoPasswordCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         
         return tableView
@@ -117,6 +118,13 @@ extension SettingMemoViewController: UITableViewDataSource {
                 
                 return cell
             }
+        case 1:
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SetMemoPasswordCell.identifier, for: indexPath) as? SetMemoPasswordCell else { return UITableViewCell() }
+            
+            cell.selectionStyle = .none
+            cell.memo = newMemo
+            
+            return cell
         default:
             let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
             return cell

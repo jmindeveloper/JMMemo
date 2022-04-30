@@ -28,6 +28,7 @@
 		0EE444F8281C10B0005EADA1 /* SettingMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444F7281C10B0005EADA1 /* SettingMemoViewController.swift */; };
 		0EE444FB281CD3DA005EADA1 /* SelectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */; };
 		0EE444FD281CDCD3005EADA1 /* CategoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */; };
+		0EE444FF281CE53A005EADA1 /* SetMemoPasswordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		0EE444F7281C10B0005EADA1 /* SettingMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMemoViewController.swift; sourceTree = "<group>"; };
 		0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryCell.swift; sourceTree = "<group>"; };
 		0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCell.swift; sourceTree = "<group>"; };
+		0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemoPasswordCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +163,7 @@
 			children = (
 				0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */,
 				0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */,
+				0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */,
 			);
 			path = SettingMemoTableViewCell;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				0E04323B281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift in Sources */,
 				0E043232281A386100A05D42 /* Category.swift in Sources */,
 				0E043239281A444000A05D42 /* Extension.swift in Sources */,
+				0EE444FF281CE53A005EADA1 /* SetMemoPasswordCell.swift in Sources */,
 				0E3A290C281BB47B00DCC449 /* CreatMemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
