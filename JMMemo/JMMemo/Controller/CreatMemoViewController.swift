@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol CreatMemoViewControllerDelegate: AnyObject {
+    func reloadMemoData()
+}
+
 class CreatMemoViewController: UIViewController {
     
     // MARK: - Properties
@@ -14,6 +18,7 @@ class CreatMemoViewController: UIViewController {
     public var newMemo: Memo?
     public var category = ""
     private let memoManeger = MemoRealmManeger()
+    weak var delegate: CreatMemoViewControllerDelegate?
     
     private let floatingButton: UIButton = {
         let button = UIButton()
@@ -236,6 +241,7 @@ class CreatMemoViewController: UIViewController {
         if newMemo != nil {
             memoManeger.saveMemo(with: newMemo!)
         }
+        delegate?.reloadMemoData()
         navigationController?.popViewController(animated: true)
     }
 }

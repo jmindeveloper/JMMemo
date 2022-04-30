@@ -96,6 +96,7 @@ class CategoryListViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
         
         let vc = MemoListViewController()
+        vc.delegate = self
         vc.memos = memos
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -134,9 +135,9 @@ class CategoryListViewController: UIViewController {
         categoryCollectionView.reloadData()
     }
     
-    private func filterMemo(_ filter: String) -> Results<Memo>? {
-        return memos?.filter(filter)
-    }
+//    private func filterMemo(_ filter: String) -> Results<Memo>? {
+//        return memos?.filter(filter)
+//    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -174,7 +175,7 @@ extension CategoryListViewController: UICollectionViewDataSource {
                 
                 return cell
             case 1:
-                let count = String(filterMemo("star == false")?.count ?? 0)
+                let count = String(memoManeger.filterMemo(with: memos, "star == true")?.count ?? 0)
                 let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
                 
                 cell.configure(with: categoryViewModeol)
@@ -190,7 +191,7 @@ extension CategoryListViewController: UICollectionViewDataSource {
             let categoryName = categorys?.userAdd?[indexPath.row].categoryName ?? "전체"
 //            let count = String(categorys?.userAdd?[indexPath.row].memoCount ?? 0)
             let filterStr = "category == '\(categoryName)'"
-            let count = String(filterMemo(filterStr)?.count ?? 0)
+            let count = String(memoManeger.filterMemo(with: memos, filterStr)?.count ?? 0)
             
             let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
             
@@ -220,7 +221,7 @@ extension CategoryListViewController: UICollectionViewDelegate {
             case 0:
                 vc.memos = memos
             case 1:
-                vc.memos = filterMemo("star == false")
+                vc.memos = memoManeger.filterMemo(with: memos, "star == true")
             default:
                 break
             }
@@ -230,10 +231,12 @@ extension CategoryListViewController: UICollectionViewDelegate {
             let categoryName = categorys?.userAdd?[indexPath.row].categoryName ?? ""
             
             let filterStr = "category == '\(categoryName)'"
-            vc.memos = filterMemo(filterStr)
+            vc.memos = memoManeger.filterMemo(with: memos, filterStr)
         default:
             break
         }
+        
+        vc.delegate = self
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -327,5 +330,12 @@ extension CategoryListViewController {
                 return nil
             }
         }
+    }
+}
+
+extension CategoryListViewController: CategoryCollectionViewReload {
+    func reloadCollectionView() {
+        memos = memoManeger.getAllMemo()
+        categoryCollectionView.reloadData()
     }
 }

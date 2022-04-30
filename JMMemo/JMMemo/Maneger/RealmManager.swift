@@ -102,4 +102,8 @@ class MemoRealmManeger {
             print(error.localizedDescription)
         }
     }
+    
+    public func filterMemo(with memos: Results<Memo>?, _ filter: String) -> Results<Memo>? {
+        return memos?.filter(filter)
+    }
 }

@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import RealmSwift
 
+protocol CategoryCollectionViewReload: AnyObject {
+    func reloadCollectionView()
+}
+
 class MemoListViewController: UIViewController {
     
     // MARK: - Properties
@@ -18,6 +22,7 @@ class MemoListViewController: UIViewController {
         }
     }
     private let memoManeger = MemoRealmManeger()
+    weak var delegate: CategoryCollectionViewReload?
     
     private let memoListTableView: UITableView = {
         
@@ -62,6 +67,12 @@ class MemoListViewController: UIViewController {
         floatingButton.addTarget(self, action: #selector(didFloatingButtonTapped(_:)), for: .touchUpInside)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        delegate?.reloadCollectionView()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -97,6 +108,7 @@ class MemoListViewController: UIViewController {
             vc.category = ""
         }
         vc.newMemo = Memo()
+        vc.delegate = self
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -125,4 +137,14 @@ extension MemoListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension MemoListViewController: UITableViewDelegate {
     
+}
+
+extension MemoListViewController: CreatMemoViewControllerDelegate {
+    func reloadMemoData() {
+        let allMemo = memoManeger.getAllMemo()
+        let filterStr = "category == '\(navigationItem.title ?? "")'"
+        let currentMemoList = memoManeger.filterMemo(with: allMemo, filterStr)
+        memos = currentMemoList
+        memoListTableView.reloadData()
+    }
 }
