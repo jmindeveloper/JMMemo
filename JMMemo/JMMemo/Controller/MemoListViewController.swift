@@ -220,7 +220,7 @@ extension MemoListViewController: CreatMemoViewControllerDelegate {
     func reloadMemoData() {
         let allMemo = memoManeger.getAllMemo()
         let filterStr = "category == '\(navigationItem.title ?? "")'"
-        if navigationItem.title != "Memo" {
+        if navigationItem.title != "Memo", navigationItem.title != "전체" {
             memos = memoManeger.filterMemo(with: allMemo, filterStr)
         } else {
             memos = memoManeger.getAllMemo()
