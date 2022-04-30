@@ -80,12 +80,8 @@ class memoListTableViewCell: UITableViewCell {
         
         if memo.isSecret {
             lockImage.isHidden = false
-            memoTitleLabel.text = "Top Secret"
-            dateLabel.text = "Top Secret"
         } else {
             lockImage.isHidden = true
-            memoTitleLabel.text = memo.memoTitle
-            dateLabel.text = memo.memoDate
         }
     }
     

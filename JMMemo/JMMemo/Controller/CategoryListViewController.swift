@@ -12,11 +12,13 @@ class CategoryListViewController: UIViewController {
     
     // MARK: - Properties
     private let categoryManeger = CategoryRealmManeger()
+    private let memoManeger = MemoRealmManeger()
     private var categorys: (default: Results<Category>?, userAdd: Results<Category>?)? = nil {
         willSet {
             categoryCollectionView.reloadData()
         }
     }
+    private var memos: Results<Memo>?
     private var categoryDeleteMode = false
     
     private let categoryCollectionView: UICollectionView = {
@@ -49,9 +51,10 @@ class CategoryListViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         
-        configureNavBar()
-        
         categorys = categoryManeger.getAllCategory()
+        memos = memoManeger.getAllMemo()
+        
+        configureNavBar()
         
         categoryCollectionView.dataSource = self
         categoryCollectionView.delegate = self
@@ -93,6 +96,7 @@ class CategoryListViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .label
         
         let vc = MemoListViewController()
+        vc.memos = memos
         navigationController?.pushViewController(vc, animated: true)
     }
     

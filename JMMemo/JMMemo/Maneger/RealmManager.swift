@@ -70,7 +70,7 @@ class MemoRealmManeger {
     }
     
     // MARK: - Memo Maneger
-    public func saveCategory(with data: Memo) {
+    public func saveMemo(with data: Memo) {
         
         let realm = setRealm()
         
@@ -83,15 +83,15 @@ class MemoRealmManeger {
         }
     }
     
-    public func getAllCategory() -> Results<Memo>? {
+    public func getAllMemo() -> Results<Memo>? {
         let realm = setRealm()
         
-        let allMemo = realm?.objects(Memo.self)
+        let allMemo = realm?.objects(Memo.self).sorted(byKeyPath: "memoDate", ascending: false)
         
         return allMemo
     }
     
-    public func deleteCategory(with data: Memo) {
+    public func deleteMemo(with data: Memo) {
         let realm = setRealm()
         
         do {

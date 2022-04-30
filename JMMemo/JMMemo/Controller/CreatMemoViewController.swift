@@ -13,6 +13,7 @@ class CreatMemoViewController: UIViewController {
     
     public var newMemo: Memo?
     public var category = ""
+    private let memoManeger = MemoRealmManeger()
     
     private let floatingButton: UIButton = {
         let button = UIButton()
@@ -159,6 +160,9 @@ class CreatMemoViewController: UIViewController {
         navigationController?.navigationBar.topItem?.backButtonTitle = "메모목록"
         navigationItem.title = "메모작성"
         navigationItem.largeTitleDisplayMode = .never
+        
+        navigationItem.rightBarButtonItems = [ UIBarButtonItem(title: "SAVE", style: .plain, target: self, action: #selector(saveMemo))
+        ]
     }
     
     private func keyboardNoti() {
@@ -206,6 +210,33 @@ class CreatMemoViewController: UIViewController {
         view.endEditing(true)
         
         self.present(vc, animated: true)
+    }
+    
+    @objc func saveMemo() {
+        func showAlert(_ q: String) {
+            let alert = UIAlertController(title: nil, message: "\(q) 작성해주세요", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
+        }
+        
+        
+        guard let title = titleTextField.text, !title.isEmpty else {
+            showAlert("메모제목을")
+            return
+        }
+        guard let memo = memoTextView.text, !memo.isEmpty else {
+            showAlert("메모를")
+            return
+        }
+        
+        newMemo?.memo = memo
+        newMemo?.memoTitle = title
+        
+        if newMemo != nil {
+            memoManeger.saveMemo(with: newMemo!)
+        }
+        navigationController?.popViewController(animated: true)
     }
 }
 

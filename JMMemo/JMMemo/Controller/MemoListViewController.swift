@@ -12,6 +12,13 @@ import RealmSwift
 class MemoListViewController: UIViewController {
     
     // MARK: - Properties
+    public var memos: Results<Memo>? = nil {
+        willSet {
+            memoListTableView.reloadData()
+        }
+    }
+    private let memoManeger = MemoRealmManeger()
+    
     private let memoListTableView: UITableView = {
         
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -98,13 +105,14 @@ class MemoListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        return dummyMemoList.count
-        10
+        return memos?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: memoListTableViewCell.identifier, for: indexPath) as? memoListTableViewCell else { return UITableViewCell() }
-//        cell.configure(with: dummyMemoList[indexPath.row])
+        guard let memos = memos else { return UITableViewCell() }
+        
+        cell.configure(with: memos[indexPath.row])
         
         cell.selectionStyle = .none
         
