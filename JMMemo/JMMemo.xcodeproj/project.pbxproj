@@ -26,6 +26,8 @@
 		0E87F0EA281A76CD0001140E /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87F0E9281A76CD0001140E /* RealmManager.swift */; };
 		0E87F0F7281ADB870001140E /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E87F0F6281ADB870001140E /* CategoryViewModel.swift */; };
 		0EE444F8281C10B0005EADA1 /* SettingMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444F7281C10B0005EADA1 /* SettingMemoViewController.swift */; };
+		0EE444FB281CD3DA005EADA1 /* SelectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */; };
+		0EE444FD281CDCD3005EADA1 /* CategoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,6 +49,8 @@
 		0E87F0E9281A76CD0001140E /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		0E87F0F6281ADB870001140E /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		0EE444F7281C10B0005EADA1 /* SettingMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingMemoViewController.swift; sourceTree = "<group>"; };
+		0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryCell.swift; sourceTree = "<group>"; };
+		0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,7 @@
 		0E043225281A333700A05D42 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				0EE444F9281CD3C7005EADA1 /* SettingMemoTableViewCell */,
 				0E043233281A395000A05D42 /* memoListTableViewCell.swift */,
 				0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */,
 				0E87F0DC281A62A50001140E /* UserAddCategoryCollectionViewCell.swift */,
@@ -149,6 +154,15 @@
 				0E87F0F6281ADB870001140E /* CategoryViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		0EE444F9281CD3C7005EADA1 /* SettingMemoTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */,
+				0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */,
+			);
+			path = SettingMemoTableViewCell;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -240,7 +254,9 @@
 				0E043228281A334E00A05D42 /* MemoListViewController.swift in Sources */,
 				0EE444F8281C10B0005EADA1 /* SettingMemoViewController.swift in Sources */,
 				0E87F0DD281A62A50001140E /* UserAddCategoryCollectionViewCell.swift in Sources */,
+				0EE444FB281CD3DA005EADA1 /* SelectCategoryCell.swift in Sources */,
 				0E043230281A385900A05D42 /* Memo.swift in Sources */,
+				0EE444FD281CDCD3005EADA1 /* CategoryListCell.swift in Sources */,
 				0E04323B281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift in Sources */,
 				0E043232281A386100A05D42 /* Category.swift in Sources */,
 				0E043239281A444000A05D42 /* Extension.swift in Sources */,

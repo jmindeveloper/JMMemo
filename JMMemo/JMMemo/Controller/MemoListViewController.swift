@@ -106,6 +106,8 @@ extension MemoListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: memoListTableViewCell.identifier, for: indexPath) as? memoListTableViewCell else { return UITableViewCell() }
 //        cell.configure(with: dummyMemoList[indexPath.row])
         
+        cell.selectionStyle = .none
+        
         return cell
     }
     

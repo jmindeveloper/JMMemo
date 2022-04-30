@@ -201,12 +201,15 @@ class CreatMemoViewController: UIViewController {
     
     @objc func didTapFloatingButton(_ sender: UIButton) {
         let vc = SettingMemoViewController()
+        vc.newMemo = newMemo
+        vc.configure(category: newMemo?.category ?? "Category")
         view.endEditing(true)
         
         self.present(vc, animated: true)
     }
 }
 
+// MARK: - UITextViewDelegate
 extension CreatMemoViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let strCount = memoTextView.text.count
