@@ -31,7 +31,7 @@ class SettingMemoViewController: UIViewController {
         tableView.register(SelectCategoryCell.self, forCellReuseIdentifier: SelectCategoryCell.identifier)
         tableView.register(CategoryListCell.self, forCellReuseIdentifier: CategoryListCell.identifier)
         tableView.register(SetMemoPasswordCell.self, forCellReuseIdentifier: SetMemoPasswordCell.identifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(SetMemoStarCell.self, forCellReuseIdentifier: SetMemoStarCell.identifier)
         
         return tableView
     }()
@@ -83,6 +83,19 @@ extension SettingMemoViewController: UITableViewDataSource {
         return 3
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 0:
+            return "Category"
+        case 1:
+            return "비밀번호"
+        case 2:
+            return "즐겨찾기"
+        default:
+            return ""
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
@@ -126,7 +139,11 @@ extension SettingMemoViewController: UITableViewDataSource {
             
             return cell
         default:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: SetMemoStarCell.identifier, for: indexPath) as? SetMemoStarCell else { return UITableViewCell() }
+            
+            cell.selectionStyle = .none
+            cell.memo = newMemo
+            
             return cell
         }
     }

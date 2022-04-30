@@ -29,6 +29,7 @@
 		0EE444FB281CD3DA005EADA1 /* SelectCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */; };
 		0EE444FD281CDCD3005EADA1 /* CategoryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */; };
 		0EE444FF281CE53A005EADA1 /* SetMemoPasswordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */; };
+		0EE44501281CF586005EADA1 /* SetMemoStarCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EE44500281CF586005EADA1 /* SetMemoStarCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectCategoryCell.swift; sourceTree = "<group>"; };
 		0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListCell.swift; sourceTree = "<group>"; };
 		0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemoPasswordCell.swift; sourceTree = "<group>"; };
+		0EE44500281CF586005EADA1 /* SetMemoStarCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetMemoStarCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +166,7 @@
 				0EE444FA281CD3DA005EADA1 /* SelectCategoryCell.swift */,
 				0EE444FC281CDCD3005EADA1 /* CategoryListCell.swift */,
 				0EE444FE281CE53A005EADA1 /* SetMemoPasswordCell.swift */,
+				0EE44500281CF586005EADA1 /* SetMemoStarCell.swift */,
 			);
 			path = SettingMemoTableViewCell;
 			sourceTree = "<group>";
@@ -256,6 +259,7 @@
 				0E04320E281A32E800A05D42 /* SceneDelegate.swift in Sources */,
 				0E043228281A334E00A05D42 /* MemoListViewController.swift in Sources */,
 				0EE444F8281C10B0005EADA1 /* SettingMemoViewController.swift in Sources */,
+				0EE44501281CF586005EADA1 /* SetMemoStarCell.swift in Sources */,
 				0E87F0DD281A62A50001140E /* UserAddCategoryCollectionViewCell.swift in Sources */,
 				0EE444FB281CD3DA005EADA1 /* SelectCategoryCell.swift in Sources */,
 				0E043230281A385900A05D42 /* Memo.swift in Sources */,
