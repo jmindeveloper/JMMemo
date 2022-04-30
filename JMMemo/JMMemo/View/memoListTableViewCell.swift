@@ -76,7 +76,11 @@ class memoListTableViewCell: UITableViewCell {
     // MARK: - Method
     public func configure(with memo: Memo) {
         memoTitleLabel.text = memo.memoTitle
-        dateLabel.text = memo.memoDate
+        
+        var date = memo.memoDate
+        date.removeLast()
+        date.removeLast()
+        dateLabel.text = date
         
         if memo.isSecret {
             lockImage.isHidden = false

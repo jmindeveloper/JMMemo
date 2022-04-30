@@ -45,3 +45,11 @@ extension UIView {
         return nil
     }
 }
+
+// String
+extension String {
+    mutating func removeSecond() {
+        self.removeLast()
+        self.removeLast()
+    }
+}

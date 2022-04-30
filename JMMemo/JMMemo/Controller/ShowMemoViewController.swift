@@ -96,7 +96,10 @@ class ShowMemoViewController: UIViewController {
     public func configure(memo: MemoViewModel) {
         memoLabel.text = memo.memo
         titleLabel.text = memo.title
-        dateLabel.text = memo.date
+        var date = memo.date
+        date.removeLast()
+        date.removeLast()
+        dateLabel.text = date
     }
     
     @objc func shareMemo(_ sender: UIBarButtonItem) {

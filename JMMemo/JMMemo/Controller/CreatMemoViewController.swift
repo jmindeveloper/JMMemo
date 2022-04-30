@@ -89,7 +89,11 @@ class CreatMemoViewController: UIViewController {
         hideKeyboard()
         settingNewMemo()
         
-        dateLabel.text = creatMemoTime()
+        var date = creatMemoTime()
+        date.removeLast()
+        date.removeLast()
+        
+        dateLabel.text = date
         
         memoTextView.delegate = self
         
@@ -155,7 +159,7 @@ class CreatMemoViewController: UIViewController {
     
     private func creatMemoTime() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 M월 dd일 a h:mm"
+        dateFormatter.dateFormat = "yyyy년 M월 dd일 a h:mm ss"
         dateFormatter.locale = Locale(identifier: "ko_KR")
         let dateStr = dateFormatter.string(from: Date())
         return dateStr
