@@ -89,7 +89,7 @@ class ShowMemoViewController: UIViewController {
         navigationItem.title = "메모"
         navigationItem.largeTitleDisplayMode = .never
         
-        navigationItem.rightBarButtonItems = [ UIBarButtonItem(title: "수정", style: .plain, target: self, action: nil)
+        navigationItem.rightBarButtonItems = [UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: nil)
         ]
     }
     

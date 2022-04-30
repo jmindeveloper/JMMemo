@@ -46,6 +46,18 @@ class MemoListViewController: UIViewController {
         return image
     }()
     
+    private let SearchBar: UISearchController = {
+        let controller = UISearchController(searchResultsController: SearchResultViewController())
+        controller.searchBar.searchBarStyle = .minimal
+        controller.searchBar.placeholder = "Search for a Memo"
+        
+        controller.searchBar.autocapitalizationType = .sentences
+        controller.searchBar.autocorrectionType = .no
+        controller.searchBar.spellCheckingType = .no
+        
+        return controller
+    }()
+    
     public var navigationTitle = "Memo"
     // MARK: - LifeCycle
     override func viewDidLoad() {
@@ -55,6 +67,7 @@ class MemoListViewController: UIViewController {
         
         configureNavBar()
         
+        SearchBar.searchResultsUpdater = self
         memoListTableView.dataSource = self
         memoListTableView.delegate = self
         memoListTableView.rowHeight = 60
@@ -98,6 +111,7 @@ class MemoListViewController: UIViewController {
         navigationItem.title = navigationTitle
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.searchController = SearchBar
     }
     
     @objc func didFloatingButtonTapped(_ sender: UIButton) {
@@ -209,5 +223,18 @@ extension MemoListViewController: CreatMemoViewControllerDelegate {
         let currentMemoList = memoManeger.filterMemo(with: allMemo, filterStr)
         memos = currentMemoList
         memoListTableView.reloadData()
+    }
+}
+
+extension MemoListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let resultController = searchController.searchResultsController as? SearchResultViewController,
+              let text = SearchBar.searchBar.text else { return }
+        
+        let searchTitle = "memoTitle CONTAINS '\(text)' OR memo CONTAINS '\(text)'"
+//        let searchMemo = "memo CONTAINS '\(text)'"
+        let searchResultMemo = memoManeger.filterMemo(with: memos, searchTitle)
+        resultController.memos = searchResultMemo
+        resultController.searchResultTableView.reloadData()
     }
 }

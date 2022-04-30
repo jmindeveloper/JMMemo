@@ -21,6 +21,7 @@
 		0E04323B281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */; };
 		0E340BB8281D0C35004B7F69 /* ShowMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E340BB7281D0C35004B7F69 /* ShowMemoViewController.swift */; };
 		0E340BBA281D17D1004B7F69 /* MemoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E340BB9281D17D1004B7F69 /* MemoViewModel.swift */; };
+		0E340BBC281D258A004B7F69 /* SearchResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E340BBB281D258A004B7F69 /* SearchResultViewController.swift */; };
 		0E3A290C281BB47B00DCC449 /* CreatMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E3A290B281BB47B00DCC449 /* CreatMemoViewController.swift */; };
 		0E3A290F281BB60100DCC449 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3A290E281BB60100DCC449 /* Realm */; };
 		0E3A2911281BB60100DCC449 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0E3A2910281BB60100DCC449 /* RealmSwift */; };
@@ -50,6 +51,7 @@
 		0E04323A281A54B800A05D42 /* DefaultCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E340BB7281D0C35004B7F69 /* ShowMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowMemoViewController.swift; sourceTree = "<group>"; };
 		0E340BB9281D17D1004B7F69 /* MemoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoViewModel.swift; sourceTree = "<group>"; };
+		0E340BBB281D258A004B7F69 /* SearchResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultViewController.swift; sourceTree = "<group>"; };
 		0E3A290B281BB47B00DCC449 /* CreatMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatMemoViewController.swift; sourceTree = "<group>"; };
 		0E87F0DC281A62A50001140E /* UserAddCategoryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddCategoryCollectionViewCell.swift; sourceTree = "<group>"; };
 		0E87F0E9281A76CD0001140E /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				0E04322A281A336100A05D42 /* CategoryListViewController.swift */,
 				0EE444F7281C10B0005EADA1 /* SettingMemoViewController.swift */,
 				0E340BB7281D0C35004B7F69 /* ShowMemoViewController.swift */,
+				0E340BBB281D258A004B7F69 /* SearchResultViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E04322B281A336100A05D42 /* CategoryListViewController.swift in Sources */,
+				0E340BBC281D258A004B7F69 /* SearchResultViewController.swift in Sources */,
 				0E043234281A395000A05D42 /* memoListTableViewCell.swift in Sources */,
 				0E340BB8281D0C35004B7F69 /* ShowMemoViewController.swift in Sources */,
 				0E87F0EA281A76CD0001140E /* RealmManager.swift in Sources */,
