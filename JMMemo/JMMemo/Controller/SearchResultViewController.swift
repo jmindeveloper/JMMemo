@@ -107,22 +107,16 @@ extension SearchResultViewController: UITableViewDelegate {
         if memos[indexPath.row].isSecret {
             checkPassword(memos[indexPath.row].password!) { [weak self] in
                 guard let self = self else { return }
-                let title = memos[indexPath.row].memoTitle
-                let memo = memos[indexPath.row].memo
-                let date = memos[indexPath.row].memoDate
-                let viewModel = MemoViewModel(title: title, memo: memo, date: date)
-                vc.configure(memo: viewModel)
+                let memo = memos[indexPath.row]
+                vc.configure(memo: memo)
                 
                 self.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
                 return
             }
         }
         
-        let title = memos[indexPath.row].memoTitle
-        let memo = memos[indexPath.row].memo
-        let date = memos[indexPath.row].memoDate
-        let viewModel = MemoViewModel(title: title, memo: memo, date: date)
-        vc.configure(memo: viewModel)
+        let memo = memos[indexPath.row]
+        vc.configure(memo: memo)
         
         self.presentingViewController?.navigationController?.pushViewController(vc, animated: true)
     }

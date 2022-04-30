@@ -58,6 +58,15 @@ class CategoryRealmManeger {
     
 }
 
+enum UpdateMemoQuery {
+    case title
+    case memo
+    case isSecret
+    case password
+    case star
+    case category
+}
+
 class MemoRealmManeger {
     
     private func setRealm() -> Realm? {
@@ -76,7 +85,7 @@ class MemoRealmManeger {
         
         do {
             try realm?.write {
-                realm?.add(data)
+                realm?.add(data, update: .modified)
             }
         } catch {
             print(error.localizedDescription)
@@ -105,5 +114,40 @@ class MemoRealmManeger {
     
     public func filterMemo(with memos: Results<Memo>?, _ filter: String) -> Results<Memo>? {
         return memos?.filter(filter)
+    }
+    
+    public func updateMemo(memo: Memo?, query: UpdateMemoQuery, data: Any?) {
+        let realm = setRealm()
+        
+        do {
+            switch query {
+            case .title:
+                try realm?.write {
+                    memo?.memoTitle = data as! String
+                }
+            case .memo:
+                try realm?.write {
+                    memo?.memo = data as! String
+                }
+            case .isSecret:
+                try realm?.write {
+                    memo?.isSecret = data as! Bool
+                }
+            case .password:
+                try realm?.write {
+                    memo?.password = data as! Int?
+                }
+            case .star:
+                try realm?.write {
+                    memo?.star = data as! Bool
+                }
+            case .category:
+                try realm?.write {
+                    memo?.category = data as! String
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

@@ -12,6 +12,8 @@ class ShowMemoViewController: UIViewController {
     
     // MARK: - Properties
     private var isFloatingShow = false
+    private var currentMemo: Memo?
+    private let memoManeger = MemoRealmManeger()
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -199,13 +201,28 @@ class ShowMemoViewController: UIViewController {
         ]
     }
     
-    public func configure(memo: MemoViewModel) {
+    public func configure(memo: Memo?) {
+        
+        guard let memo = memo else { return }
+        currentMemo = memo
         memoLabel.text = memo.memo
-        titleLabel.text = memo.title
-        var date = memo.date
+        titleLabel.text = memo.memoTitle
+        var date = memo.memoDate
         date.removeLast()
         date.removeLast()
         dateLabel.text = date
+        
+        if memo.star {
+            starButtonImage.image = UIImage(systemName: "star.fill")
+        } else {
+            starButtonImage.image = UIImage(systemName: "star")
+        }
+        
+        if memo.isSecret {
+            setPasswordButtonImage.image = UIImage(systemName: "lock.fill")
+        } else {
+            setPasswordButtonImage.image = UIImage(systemName: "lock.open")
+        }
     }
     
     @objc func shareMemo(_ sender: UIBarButtonItem) {
@@ -244,10 +261,81 @@ class ShowMemoViewController: UIViewController {
     }
     
     @objc func didTapsetPasswordButton(_ sender: UIButton) {
+        guard let memo = currentMemo else { return }
         
+        func wrongAlert() {
+            let alert = UIAlertController(title: nil, message: "비밀번호가 잘못됐습니다", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
+        }
+        
+        if memo.isSecret {
+            let alert = UIAlertController(title: nil, message: "비밀번호를 해제하실려면 비밀번호를 입력해 주세요", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                guard let password = Int(alert.textFields?[0].text ?? "") else {
+                    wrongAlert()
+                    return
+                }
+                
+                if memo.password == password {
+                    let query = UpdateMemoQuery.isSecret
+                    let query2 = UpdateMemoQuery.password
+                    self.memoManeger.updateMemo(memo: memo, query: query, data: false)
+                    self.memoManeger.updateMemo(memo: memo, query: query2, data: nil)
+                    self.setPasswordButtonImage.image = UIImage(systemName: "lock.open")
+                } else {
+                    wrongAlert()
+                }
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            
+            alert.addTextField { tf in
+                tf.placeholder = "Password"
+                tf.textContentType = .creditCardNumber
+                tf.isSecureTextEntry = true
+            }
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true)
+        } else {
+            let alert = UIAlertController(title: nil, message: "비밀번호를 설정하시겠습니까?", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+                guard let self = self else { return }
+                guard let password = Int(alert.textFields?[0].text ?? "") else { return }
+                
+                let query = UpdateMemoQuery.isSecret
+                let query2 = UpdateMemoQuery.password
+                
+                self.memoManeger.updateMemo(memo: memo, query: query, data: true)
+                self.memoManeger.updateMemo(memo: memo, query: query2, data: password)
+                self.setPasswordButtonImage.image = UIImage(systemName: "lock.fill")
+            }
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            
+            alert.addTextField { tf in
+                tf.placeholder = "Password"
+                tf.textContentType = .creditCardNumber
+                tf.isSecureTextEntry = true
+            }
+            alert.addAction(okAction)
+            alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true)
+        }
     }
     
     @objc func didTapstarButton(_ sender: UIButton) {
-        
+        guard let memo = currentMemo else { return }
+        let query = UpdateMemoQuery.star
+        if memo.star {
+            memoManeger.updateMemo(memo: memo, query: query, data: false)
+            starButtonImage.image = UIImage(systemName: "star")
+        } else {
+            memoManeger.updateMemo(memo: memo, query: query, data: true)
+            starButtonImage.image = UIImage(systemName: "star.fill")
+        }
     }
 }
