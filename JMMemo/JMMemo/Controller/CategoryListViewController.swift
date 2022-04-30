@@ -133,6 +133,10 @@ class CategoryListViewController: UIViewController {
         print(categoryDeleteMode)
         categoryCollectionView.reloadData()
     }
+    
+    private func filterMemo(_ filter: String) -> Results<Memo>? {
+        return memos?.filter(filter)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -161,18 +165,32 @@ extension CategoryListViewController: UICollectionViewDataSource {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DefaultCategoryCollectionViewCell.identifier, for: indexPath) as? DefaultCategoryCollectionViewCell else { return UICollectionViewCell() }
             
             let categoryName = categorys?.default?[indexPath.row].categoryName ?? "전체"
-            let count = String(categorys?.default?[indexPath.row].memoCount ?? 0)
-            
-            let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
-            
-            cell.configure(with: categoryViewModeol)
-            
-            return cell
+            switch indexPath.row {
+            case 0:
+                let count = String(memos?.count ?? 0)
+                let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
+                
+                cell.configure(with: categoryViewModeol)
+                
+                return cell
+            case 1:
+                let count = String(filterMemo("star == false")?.count ?? 0)
+                let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
+                
+                cell.configure(with: categoryViewModeol)
+                
+                return cell
+            default:
+                return UICollectionViewCell()
+            }
+           
         case 1:
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UserAddCategoryCollectionViewCell.identifier, for: indexPath) as? UserAddCategoryCollectionViewCell else { return UICollectionViewCell() }
             
             let categoryName = categorys?.userAdd?[indexPath.row].categoryName ?? "전체"
-            let count = String(categorys?.userAdd?[indexPath.row].memoCount ?? 0)
+//            let count = String(categorys?.userAdd?[indexPath.row].memoCount ?? 0)
+            let filterStr = "category == '\(categoryName)'"
+            let count = String(filterMemo(filterStr)?.count ?? 0)
             
             let categoryViewModeol = CategoryViewModel(categoryName: categoryName, count: count)
             
@@ -190,17 +208,29 @@ extension CategoryListViewController: UICollectionViewDataSource {
 // MARK: - UICollectionViewDelegate
 extension CategoryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        categoryDeleteMode = false
+        categoryCollectionView.reloadData()
+        
         let vc = MemoListViewController()
         
         switch indexPath.section {
         case 0:
             vc.navigationTitle = categorys?.default?[indexPath.row].categoryName ?? "Memo"
-            categoryDeleteMode = false
-            categoryCollectionView.reloadData()
+            switch indexPath.row {
+            case 0:
+                vc.memos = memos
+            case 1:
+                vc.memos = filterMemo("star == false")
+            default:
+                break
+            }
+            
         case 1:
             vc.navigationTitle = categorys?.userAdd?[indexPath.row].categoryName ?? "Memo"
-            categoryDeleteMode = false
-            categoryCollectionView.reloadData()
+            let categoryName = categorys?.userAdd?[indexPath.row].categoryName ?? ""
+            
+            let filterStr = "category == '\(categoryName)'"
+            vc.memos = filterMemo(filterStr)
         default:
             break
         }

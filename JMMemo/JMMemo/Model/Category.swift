@@ -9,6 +9,7 @@ import Foundation
 import RealmSwift
 
 class Category: Object {
+    // memoCount 사용안함ㅋ
     @Persisted var memoCount: Int
     @Persisted var categoryName: String
     @Persisted var isDefault: Bool = false
