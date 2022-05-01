@@ -185,7 +185,18 @@ extension MemoListViewController: UITableViewDataSource {
         return cell
     }
     
-    
+    // 메모삭제
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        switch editingStyle {
+        case .delete:
+            guard let deleteMemo = memos?[indexPath.row] else { return }
+            
+            memoManeger.deleteMemo(with: deleteMemo)
+            memoListTableView.deleteRows(at: [indexPath], with: .fade)
+        default:
+            break
+        }
+    }
 }
 
 // MARK: - UITableViewDelegate
