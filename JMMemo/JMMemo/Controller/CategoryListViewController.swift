@@ -131,10 +131,9 @@ class CategoryListViewController: UIViewController {
         self.present(alert, animated: true)
     }
     
-    // 카티고리 삭제
+    // 카티고리 삭제모드
     @objc func deleteMode(_ sender: UIBarButtonItem) {
         categoryDeleteMode.toggle()
-        print(categoryDeleteMode)
         categoryCollectionView.reloadData()
     }
 }
@@ -253,7 +252,7 @@ extension CategoryListViewController: UICollectionViewDelegate {
 extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate {
     
     // 눌린 deletebutton이 있는 cell의 indexPath 가져오기
-    func getCategoryCollectionViewCellIndexPath(_ sender: UIButton) -> IndexPath? {
+    private func getCategoryCollectionViewCellIndexPath(_ sender: UIButton) -> IndexPath? {
         let contentView = sender.superview
         let cell = contentView?.superview as! UICollectionViewCell
         
@@ -261,6 +260,15 @@ extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate 
             return indexPath
         }
         return nil
+    }
+    
+    // 해당 카테고리에 잇던 메모의 카테고리 전부 지워주기
+    private func memoCategoryDelete(_ category: String) {
+        let memos = memoManeger.getAllMemo()
+        
+        memos?.filter("category == '\(category)'").forEach { [weak self] in
+            self?.memoManeger.updateMemo(memo: $0, query: UpdateMemoQuery.category, data: "")
+        }
     }
     
     // cell 삭제
@@ -272,6 +280,7 @@ extension CategoryListViewController: UserAddCategoryCollectionViewCellDelegate 
         let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             guard let self = self else { return }
             
+            self.memoCategoryDelete(deleteCategory.categoryName)
             self.categoryManeger.deleteCategory(with: deleteCategory)
             self.categorys = self.categoryManeger.getAllCategory()
             
