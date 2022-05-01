@@ -12,7 +12,12 @@ class SetMemoStarCell: UITableViewCell {
     static let identifier = "SetMemoStarCell"
     
     // MARK: - Properties
-    public var memo: Memo?
+    private let memoManeger = MemoRealmManeger()
+    
+    public var memo: Memo? = nil {
+        willSet { toggle.isOn = newValue?.star ?? false }
+    }
+    public var isEditMode = false
     
     let label: UILabel = {
         let label = UILabel()
@@ -59,10 +64,20 @@ class SetMemoStarCell: UITableViewCell {
     
     // MARK: - Method
     @objc func toggleIsOn(_ sender: UISwitch) {
+        let query = UpdateMemoQuery.star
+        
         if sender.isOn {
-            memo?.star = true
+            if !isEditMode {
+                memo?.star = true
+            } else {
+                memoManeger.updateMemo(memo: memo, query: query, data: true)
+            }
         } else {
-            memo?.star = false
+            if !isEditMode {
+                memo?.star = false
+            } else {
+                memoManeger.updateMemo(memo: memo, query: query, data: false)
+            }
         }
     }
 }

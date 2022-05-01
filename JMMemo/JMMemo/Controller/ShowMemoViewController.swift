@@ -142,11 +142,10 @@ class ShowMemoViewController: UIViewController {
         editMemoButton.addTarget(self, action: #selector(didTapeditMemoButton(_:)), for: .touchUpInside)
         setPasswordButton.addTarget(self, action: #selector(didTapsetPasswordButton(_:)), for: .touchUpInside)
         starButton.addTarget(self, action: #selector(didTapstarButton(_:)), for: .touchUpInside)
-        
         scrollView.addSubview(memoLabel)
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewDidDisappear(true)
         delegate?.reloadMemoData()
     }
@@ -264,7 +263,10 @@ class ShowMemoViewController: UIViewController {
     
     @objc func didTapeditMemoButton(_ sender: UIButton) {
         let vc = CreatMemoViewController()
-        
+        vc.memoObject = currentMemo
+        vc.isEditMode = true
+        vc.configure()
+        vc.showVCDelegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -345,5 +347,14 @@ class ShowMemoViewController: UIViewController {
             memoManeger.updateMemo(memo: memo, query: query, data: true)
             starButtonImage.image = UIImage(systemName: "star.fill")
         }
+    }
+}
+
+extension ShowMemoViewController: AfterEditShowMemoViewControllerUpdate {
+    func reloadMemoData(_ memo: Memo?) {
+        titleLabel.text = memo?.memoTitle
+        memoLabel.text = memo?.memo
+        setPasswordButtonImage.image = UIImage(systemName: memo?.isSecret ?? false ? "lock.fill" : "lock.open")
+        starButtonImage.image = UIImage(systemName: memo?.star ?? false ? "star.fill" : "star")
     }
 }

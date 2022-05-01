@@ -21,10 +21,12 @@ class SettingMemoViewController: UIViewController {
     }
     
     // MARK: - Properties
-    public var newMemo: Memo?
+    public var memoObject: Memo?
     private let categoryManeger = CategoryRealmManeger()
     private var categoryData = CategoryCellData()
 //    private var categories: [String] = []
+    public var isEditMode = false
+    private let memoManeger = MemoRealmManeger()
     
     private let tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
@@ -68,10 +70,8 @@ class SettingMemoViewController: UIViewController {
     
     public func configure(category: String) {
         if category != "", category != "전체", category != "즐겨찾기" {
-//            categories.append(category)
             categoryData.categories.append(category)
         } else {
-//            categories.append("Category")
             categoryData.categories.append("Category")
         }
     }
@@ -135,14 +135,16 @@ extension SettingMemoViewController: UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SetMemoPasswordCell.identifier, for: indexPath) as? SetMemoPasswordCell else { return UITableViewCell() }
             
             cell.selectionStyle = .none
-            cell.memo = newMemo
+            cell.memo = memoObject
+            cell.isEditMode = isEditMode
             
             return cell
         default:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SetMemoStarCell.identifier, for: indexPath) as? SetMemoStarCell else { return UITableViewCell() }
             
             cell.selectionStyle = .none
-            cell.memo = newMemo
+            cell.memo = memoObject
+            cell.isEditMode = isEditMode
             
             return cell
         }
@@ -160,8 +162,14 @@ extension SettingMemoViewController: UITableViewDelegate {
                 tableView.reloadSections([indexPath.section], with: .none)
             default:
                 categoryData.categories[0] = categoryData.categories[indexPath.row]
-                newMemo?.category = categoryData.categories[0]
-                
+                if !isEditMode {
+                    print("editMode --> false")
+                    memoObject?.category = categoryData.categories[0]
+                } else {
+                    print("editMode --> true")
+                    let query = UpdateMemoQuery.category
+                    memoManeger.updateMemo(memo: memoObject, query: query, data: categoryData.categories[0])
+                }
                 categoryData.isOpen = false
                 tableView.reloadSections([indexPath.section], with: .none)
             }

@@ -123,7 +123,6 @@ class MemoListViewController: UIViewController {
         }
         vc.memoObject = Memo()
         vc.delegate = self
-        print("delegate --> \(vc.delegate)")
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -223,8 +222,8 @@ extension MemoListViewController: CreatMemoViewControllerDelegate {
             memos = memoManeger.filterMemo(with: allMemo, "star == true")
         } else {
             memos = memoManeger.getAllMemo()
-            print("쉬불")
         }
+
         memoListTableView.reloadData()
     }
 }

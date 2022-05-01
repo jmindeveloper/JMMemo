@@ -11,6 +11,10 @@ protocol CreatMemoViewControllerDelegate: AnyObject {
     func reloadMemoData()
 }
 
+protocol AfterEditShowMemoViewControllerUpdate: AnyObject {
+    func reloadMemoData(_ memo: Memo?)
+}
+
 class CreatMemoViewController: UIViewController {
     
     // MARK: - Properties
@@ -20,6 +24,7 @@ class CreatMemoViewController: UIViewController {
     public var category = ""
     private let memoManeger = MemoRealmManeger()
     weak var delegate: CreatMemoViewControllerDelegate?
+    weak var showVCDelegate: AfterEditShowMemoViewControllerUpdate?
     
     private let floatingButton: UIButton = {
         let button = UIButton()
@@ -96,6 +101,8 @@ class CreatMemoViewController: UIViewController {
             date.removeLast()
             
             dateLabel.text = date
+        } else {
+            configure()
         }
         
         memoTextView.delegate = self
@@ -160,6 +167,16 @@ class CreatMemoViewController: UIViewController {
         memoObject?.memoDate = creatMemoTime()
     }
     
+    public func configure() {
+        titleTextField.text = memoObject?.memoTitle
+        memoTextView.text = memoObject?.memo
+        var date = memoObject?.memoDate
+        date?.removeLast()
+        date?.removeLast()
+        dateLabel.text = date
+        memoStrCountLabel.text = String(memoObject?.memo.count ?? 0)
+    }
+    
     private func creatMemoTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 M월 dd일 a h:mm ss"
@@ -217,7 +234,8 @@ class CreatMemoViewController: UIViewController {
     
     @objc func didTapFloatingButton(_ sender: UIButton) {
         let vc = SettingMemoViewController()
-        vc.newMemo = memoObject
+        vc.memoObject = memoObject
+        vc.isEditMode = isEditMode
         vc.configure(category: memoObject?.category ?? "Category")
         view.endEditing(true)
         
@@ -256,6 +274,7 @@ class CreatMemoViewController: UIViewController {
             
             memoManeger.updateMemo(memo: memoObject, query: query, data: title)
             memoManeger.updateMemo(memo: memoObject, query: query2, data: memo)
+            showVCDelegate?.reloadMemoData(memoObject)
         }
         delegate?.reloadMemoData()
         navigationController?.popViewController(animated: true)

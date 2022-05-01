@@ -12,7 +12,12 @@ class SetMemoPasswordCell: UITableViewCell {
     static let identifier = "SetMemoPasswordCell"
     
     // MARK: - Properties
-    public var memo: Memo?
+    private let memoManeger = MemoRealmManeger()
+    
+    public var memo: Memo? = nil {
+        willSet { toggle.isOn = newValue?.isSecret ?? false }
+    }
+    public var isEditMode = false
     
     let label: UILabel = {
         let label = UILabel()
@@ -71,8 +76,16 @@ class SetMemoPasswordCell: UITableViewCell {
                 if password.isEmpty {
                     self.deletePassword(sender)
                 } else {
-                    self.memo?.isSecret = true
-                    self.memo?.password = Int(password)!
+                    if !self.isEditMode {
+                        self.memo?.isSecret = true
+                        self.memo?.password = Int(password)!
+                    } else {
+                        let query = UpdateMemoQuery.password
+                        let query2 = UpdateMemoQuery.isSecret
+                        
+                        self.memoManeger.updateMemo(memo: self.memo, query: query2, data: true)
+                        self.memoManeger.updateMemo(memo: self.memo, query: query, data: Int(password)!)
+                    }
                 }
             }
             let cancelAction = UIAlertAction(title: "취소", style: .cancel) { [weak self] _ in
@@ -95,8 +108,16 @@ class SetMemoPasswordCell: UITableViewCell {
     }
     
     private func deletePassword(_ sender: UISwitch) {
-        self.memo?.password = nil
-        self.memo?.isSecret = false
+        if !isEditMode {
+            self.memo?.password = nil
+            self.memo?.isSecret = false
+        } else {
+            let query = UpdateMemoQuery.password
+            let query2 = UpdateMemoQuery.isSecret
+            
+            memoManeger.updateMemo(memo: memo, query: query2, data: false)
+            memoManeger.updateMemo(memo: memo, query: query, data: nil)
+        }
         sender.isOn = false
     }
 }
