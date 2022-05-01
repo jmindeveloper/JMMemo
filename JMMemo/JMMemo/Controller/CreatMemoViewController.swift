@@ -15,7 +15,8 @@ class CreatMemoViewController: UIViewController {
     
     // MARK: - Properties
     
-    public var newMemo: Memo?
+    public var memoObject: Memo?
+    public var isEditMode = false
     public var category = ""
     private let memoManeger = MemoRealmManeger()
     weak var delegate: CreatMemoViewControllerDelegate?
@@ -87,13 +88,15 @@ class CreatMemoViewController: UIViewController {
         configureNavBar()
         keyboardNoti()
         hideKeyboard()
-        settingNewMemo()
-        
-        var date = creatMemoTime()
-        date.removeLast()
-        date.removeLast()
-        
-        dateLabel.text = date
+        if !isEditMode {
+            settingNewMemo()
+            
+            var date = creatMemoTime()
+            date.removeLast()
+            date.removeLast()
+            
+            dateLabel.text = date
+        }
         
         memoTextView.delegate = self
         
@@ -151,10 +154,10 @@ class CreatMemoViewController: UIViewController {
     
     // MARK: - Method
     private func settingNewMemo() {
-        newMemo?.category = category
-        newMemo?.isSecret = false
-        newMemo?.star = false
-        newMemo?.memoDate = creatMemoTime()
+        memoObject?.category = category
+        memoObject?.isSecret = false
+        memoObject?.star = false
+        memoObject?.memoDate = creatMemoTime()
     }
     
     private func creatMemoTime() -> String {
@@ -214,8 +217,8 @@ class CreatMemoViewController: UIViewController {
     
     @objc func didTapFloatingButton(_ sender: UIButton) {
         let vc = SettingMemoViewController()
-        vc.newMemo = newMemo
-        vc.configure(category: newMemo?.category ?? "Category")
+        vc.newMemo = memoObject
+        vc.configure(category: memoObject?.category ?? "Category")
         view.endEditing(true)
         
         self.present(vc, animated: true)
@@ -239,11 +242,20 @@ class CreatMemoViewController: UIViewController {
             return
         }
         
-        newMemo?.memo = memo
-        newMemo?.memoTitle = title
-        
-        if newMemo != nil {
-            memoManeger.saveMemo(with: newMemo!)
+        if !isEditMode {
+            memoObject?.memo = memo
+            memoObject?.memoTitle = title
+            
+            if memoObject != nil {
+                memoManeger.saveMemo(with: memoObject!)
+            }
+        } else {
+            
+            let query = UpdateMemoQuery.title
+            let query2 = UpdateMemoQuery.memo
+            
+            memoManeger.updateMemo(memo: memoObject, query: query, data: title)
+            memoManeger.updateMemo(memo: memoObject, query: query2, data: memo)
         }
         delegate?.reloadMemoData()
         navigationController?.popViewController(animated: true)

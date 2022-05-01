@@ -121,8 +121,9 @@ class MemoListViewController: UIViewController {
         } else {
             vc.category = ""
         }
-        vc.newMemo = Memo()
+        vc.memoObject = Memo()
         vc.delegate = self
+        print("delegate --> \(vc.delegate)")
         
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -205,6 +206,7 @@ extension MemoListViewController: UITableViewDelegate {
         }
         
         let memo = memos[indexPath.row]
+        vc.delegate = self
         vc.configure(memo: memo)
         
         navigationController?.pushViewController(vc, animated: true)
@@ -215,10 +217,13 @@ extension MemoListViewController: CreatMemoViewControllerDelegate {
     func reloadMemoData() {
         let allMemo = memoManeger.getAllMemo()
         let filterStr = "category == '\(navigationItem.title ?? "")'"
-        if navigationItem.title != "Memo", navigationItem.title != "전체" {
+        if navigationItem.title != "Memo", navigationItem.title != "전체", navigationItem.title != "즐겨찾기" {
             memos = memoManeger.filterMemo(with: allMemo, filterStr)
+        } else if navigationItem.title == "즐겨찾기" {
+            memos = memoManeger.filterMemo(with: allMemo, "star == true")
         } else {
             memos = memoManeger.getAllMemo()
+            print("쉬불")
         }
         memoListTableView.reloadData()
     }

@@ -14,6 +14,7 @@ class ShowMemoViewController: UIViewController {
     private var isFloatingShow = false
     private var currentMemo: Memo?
     private let memoManeger = MemoRealmManeger()
+    weak var delegate: CreatMemoViewControllerDelegate?
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -145,6 +146,11 @@ class ShowMemoViewController: UIViewController {
         scrollView.addSubview(memoLabel)
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        delegate?.reloadMemoData()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
@@ -257,7 +263,9 @@ class ShowMemoViewController: UIViewController {
     }
     
     @objc func didTapeditMemoButton(_ sender: UIButton) {
+        let vc = CreatMemoViewController()
         
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func didTapsetPasswordButton(_ sender: UIButton) {
