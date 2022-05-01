@@ -106,7 +106,7 @@ class MemoListViewController: UIViewController {
     }
     
     // MARK: - Method
-    
+    // 네비바 설정
     private func configureNavBar() {
         navigationItem.title = navigationTitle
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -114,6 +114,7 @@ class MemoListViewController: UIViewController {
         navigationItem.searchController = SearchBar
     }
     
+    // 플로팅버튼 눌렀을ㄸㅐ -> 메모작성
     @objc func didFloatingButtonTapped(_ sender: UIButton) {
         let vc = CreatMemoViewController()
         if let category = navigationItem.title, category != "전체", category != "즐겨찾기", category != "Memo" {
@@ -127,8 +128,9 @@ class MemoListViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // 비밀번호 확인하기
     private func checkPassword(_ rightPassword: Int, completion: @escaping () -> ()) {
-        
+        // 비밀번호 틀렸을때 알럿
         func wrongAlert() {
             let alert = UIAlertController(title: nil, message: "비밀번호가 잘못됐습니다", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "확인", style: .default)
@@ -166,10 +168,12 @@ class MemoListViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension MemoListViewController: UITableViewDataSource {
+    // 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return memos?.count ?? 0
     }
     
+    // 셀 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: memoListTableViewCell.identifier, for: indexPath) as? memoListTableViewCell else { return UITableViewCell() }
         guard let memos = memos else { return UITableViewCell() }
@@ -186,6 +190,7 @@ extension MemoListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension MemoListViewController: UITableViewDelegate {
+    // 셀 눌렀을때 -> 비번있으면 비번확인 -> 메모보기뷰 이동
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let vc = ShowMemoViewController()
         
@@ -213,6 +218,7 @@ extension MemoListViewController: UITableViewDelegate {
 }
 
 extension MemoListViewController: CreatMemoViewControllerDelegate {
+    // 메모작성뷰에서 돌아왔을때 태이블뷰 리로드
     func reloadMemoData() {
         let allMemo = memoManeger.getAllMemo()
         let filterStr = "category == '\(navigationItem.title ?? "")'"
@@ -229,6 +235,7 @@ extension MemoListViewController: CreatMemoViewControllerDelegate {
 }
 
 extension MemoListViewController: UISearchResultsUpdating {
+    // 실시간검색
     func updateSearchResults(for searchController: UISearchController) {
         guard let resultController = searchController.searchResultsController as? SearchResultViewController,
               let text = SearchBar.searchBar.text else { return }

@@ -197,6 +197,7 @@ class ShowMemoViewController: UIViewController {
     }
     
     // MARK: - Method
+    // 네비바 설정
     private func configureNavBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = "메모목록"
         navigationItem.title = "메모"
@@ -206,6 +207,7 @@ class ShowMemoViewController: UIViewController {
         ]
     }
     
+    // 기본설정 ( 메모내용 보여줌 )
     public func configure(memo: Memo?) {
         
         guard let memo = memo else { return }
@@ -230,12 +232,14 @@ class ShowMemoViewController: UIViewController {
         }
     }
     
+    // 메모 공유하기
     @objc func shareMemo(_ sender: UIBarButtonItem) {
         let memo: [Any] = [memoLabel.text ?? ""]
         let memoViewController = UIActivityViewController(activityItems: memo, applicationActivities: nil)
         self.present(memoViewController, animated: true)
     }
     
+    // 플로팅버튼 열기,닫기
     @objc func didTapFloatingButton(_ sender: UIButton) {
         let buttons = [starButton, setPasswordButton, editMemoButton]
         isFloatingShow.toggle()
@@ -258,9 +262,9 @@ class ShowMemoViewController: UIViewController {
                 }
             }
         }
-        
     }
     
+    // 에딧버튼 -> 메모수정
     @objc func didTapeditMemoButton(_ sender: UIButton) {
         let vc = CreatMemoViewController()
         vc.memoObject = currentMemo
@@ -270,6 +274,7 @@ class ShowMemoViewController: UIViewController {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+    // 비밀번호 빠른설정
     @objc func didTapsetPasswordButton(_ sender: UIButton) {
         guard let memo = currentMemo else { return }
         
@@ -337,6 +342,7 @@ class ShowMemoViewController: UIViewController {
         }
     }
     
+    // 즐겨찾기 빠른설정
     @objc func didTapstarButton(_ sender: UIButton) {
         guard let memo = currentMemo else { return }
         let query = UpdateMemoQuery.star
@@ -351,6 +357,7 @@ class ShowMemoViewController: UIViewController {
 }
 
 extension ShowMemoViewController: AfterEditShowMemoViewControllerUpdate {
+    // 메모수정에서 돌아왔을때 바로 반영해주기 위한 델리게이트
     func reloadMemoData(_ memo: Memo?) {
         titleLabel.text = memo?.memoTitle
         memoLabel.text = memo?.memo

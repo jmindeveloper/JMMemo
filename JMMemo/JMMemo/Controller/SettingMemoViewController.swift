@@ -61,6 +61,7 @@ class SettingMemoViewController: UIViewController {
     }
     
     // MARK: - Method
+    // 전체 카테고리 가져오기
     private func getAllCategories() {
         categoryManeger.getAllCategory().userAdd?.forEach {
             categoryData.categories.append($0.categoryName)
@@ -68,6 +69,7 @@ class SettingMemoViewController: UIViewController {
         print(categoryData.categories)
     }
     
+    // 카테고리 이름만 뽑기?
     public func configure(category: String) {
         if category != "", category != "전체", category != "즐겨찾기" {
             categoryData.categories.append(category)
@@ -79,10 +81,12 @@ class SettingMemoViewController: UIViewController {
 
 // MARK: - UITableViewDataSource
 extension SettingMemoViewController: UITableViewDataSource {
+//    섹션개수
     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
     
+    // 섹션헤더
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 0:
@@ -96,12 +100,15 @@ extension SettingMemoViewController: UITableViewDataSource {
         }
     }
     
+    // 섹션별 셀 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0:
             if categoryData.isOpen {
+                // 카테고리 열렸을때
                 return categoryData.categories.count
             } else {
+                // 카테고리 닫혔을때
                 return 1
             }
         default:
@@ -109,11 +116,13 @@ extension SettingMemoViewController: UITableViewDataSource {
         }
     }
     
+    // 셀 설정
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
             switch indexPath.row {
             case 0:
+                // 맨 상위 셀( 항상보임 )
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: SelectCategoryCell.identifier, for: indexPath) as? SelectCategoryCell else { return UITableViewCell() }
                 
                 cell.selectionStyle = .none
@@ -122,6 +131,7 @@ extension SettingMemoViewController: UITableViewDataSource {
                 
                 return cell
             default:
+                // 열렸을때 보이는 셀 ( 현제 카테고리 체크표시 )
                 guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryListCell.identifier, for: indexPath) as? CategoryListCell else { return UITableViewCell() }
                 
                 cell.selectionStyle = .none
@@ -153,20 +163,22 @@ extension SettingMemoViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension SettingMemoViewController: UITableViewDelegate {
+    // 셀 눌렀을때
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
+            // 카테고리셀
         case 0:
             switch indexPath.row {
+                // 맨 상위셀 ( 항상보임 ) -> 오픈, 클로스
             case 0:
                 categoryData.isOpen.toggle()
                 tableView.reloadSections([indexPath.section], with: .none)
             default:
+                // 열렸을때 셀 -> 선택시 카테고리변경
                 categoryData.categories[0] = categoryData.categories[indexPath.row]
                 if !isEditMode {
-                    print("editMode --> false")
                     memoObject?.category = categoryData.categories[0]
                 } else {
-                    print("editMode --> true")
                     let query = UpdateMemoQuery.category
                     memoManeger.updateMemo(memo: memoObject, query: query, data: categoryData.categories[0])
                 }

@@ -160,6 +160,7 @@ class CreatMemoViewController: UIViewController {
     }
     
     // MARK: - Method
+    // 새로운 메모 작성시 기본 속성 설정
     private func settingNewMemo() {
         memoObject?.category = category
         memoObject?.isSecret = false
@@ -167,6 +168,7 @@ class CreatMemoViewController: UIViewController {
         memoObject?.memoDate = creatMemoTime()
     }
     
+    // 메모 수정시 원래 메모에 있던내용 뷰에 적용
     public func configure() {
         titleTextField.text = memoObject?.memoTitle
         memoTextView.text = memoObject?.memo
@@ -177,6 +179,7 @@ class CreatMemoViewController: UIViewController {
         memoStrCountLabel.text = String(memoObject?.memo.count ?? 0)
     }
     
+    // 메모작성시간 구하기
     private func creatMemoTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 M월 dd일 a h:mm ss"
@@ -185,6 +188,7 @@ class CreatMemoViewController: UIViewController {
         return dateStr
     }
     
+    // 네비바 설정
     private func configureNavBar() {
         navigationController?.navigationBar.topItem?.backButtonTitle = "메모목록"
         navigationItem.title = "메모작성"
@@ -194,6 +198,7 @@ class CreatMemoViewController: UIViewController {
         ]
     }
     
+    // 키보드 노티
     private func keyboardNoti() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShowChangeConstraint(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         
@@ -205,6 +210,7 @@ class CreatMemoViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     }
     
+    // 키보드 올라왔을때 뷰 수정
     @objc func keyboardWillShowChangeConstraint(_ sender: Notification) {
         var keyboardHeight: CGFloat = 0
         
@@ -232,6 +238,7 @@ class CreatMemoViewController: UIViewController {
         }
     }
     
+    // 플로팅버튼 눌렀을때
     @objc func didTapFloatingButton(_ sender: UIButton) {
         let vc = SettingMemoViewController()
         vc.memoObject = memoObject
@@ -242,6 +249,7 @@ class CreatMemoViewController: UIViewController {
         self.present(vc, animated: true)
     }
     
+    // 메모저장 및 업데이트
     @objc func saveMemo() {
         func showAlert(_ q: String) {
             let alert = UIAlertController(title: nil, message: "\(q) 작성해주세요", preferredStyle: .alert)
